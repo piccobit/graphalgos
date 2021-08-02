@@ -165,7 +165,7 @@ func contains(slice []string, item string) bool {
 	return ok
 }
 
-func (g Graph) isLeaf(node string) bool {
+func (g Graph) IsLeaf(node string) bool {
 	if len(g.adjacency[node]) != 0 {
 		return false
 	}
