@@ -113,12 +113,13 @@ func (g Graph) dfsRecursive(startingNode string, visited map[string]bool, result
 	return r
 }
 
-func (g Graph) CreatePath(firstNode, secondNode string) bool {
+func (g Graph) CreatePath(firstNode, secondNode string) ([]string, bool) {
 	visited := g.createVisited()
 	var (
 		path []string
 		q    []string
 	)
+
 	q = append(q, firstNode)
 	visited[firstNode] = true
 
@@ -130,7 +131,7 @@ func (g Graph) CreatePath(firstNode, secondNode string) bool {
 		if contains(edges, secondNode) {
 			path = append(path, secondNode)
 			fmt.Println(strings.Join(path, " -> "))
-			return true
+			return path, true
 		}
 
 		for _, node := range g.adjacency[currentNode] {
@@ -140,8 +141,10 @@ func (g Graph) CreatePath(firstNode, secondNode string) bool {
 			}
 		}
 	}
+
 	fmt.Println("no link found")
-	return false
+
+	return nil, false
 }
 
 func (g Graph) createVisited() map[string]bool {
