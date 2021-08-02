@@ -93,22 +93,22 @@ func (g Graph) DFSIterative(startingNode string) []string {
 // DFSRecursive is doing a Depth-First-Search (recursive) on the graph.
 func (g Graph) DFSRecursive(startingNode string) []string {
 	visited := g.createVisited()
-	var result []string
+	r := []string{startingNode}
 
-	g.dfsRecursive(startingNode, visited, &result)
-
-	return result
+	return append(r, g.dfsRecursive(startingNode, visited))
 }
 
-func (g Graph) dfsRecursive(startingNode string, visited map[string]bool, nodes *[]string) {
+func (g Graph) dfsRecursive(startingNode string, visited map[string]bool) string {
 	visited[startingNode] = true
-	r := append(*nodes, startingNode)
+	var node string
 
 	for _, node := range g.adjacency[startingNode] {
 		if !visited[node] {
-			g.dfsRecursive(node, visited, &r)
+			return g.dfsRecursive(node, visited)
 		}
 	}
+
+	return node
 }
 
 func (g Graph) CreatePath(firstNode, secondNode string) bool {
