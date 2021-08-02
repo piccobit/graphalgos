@@ -95,18 +95,18 @@ func (g Graph) DFSRecursive(startingNode string) []string {
 	visited := g.createVisited()
 	var result []string
 
-	g.dfsRecursive(startingNode, visited, result)
+	g.dfsRecursive(startingNode, visited, &result)
 
 	return result
 }
 
-func (g Graph) dfsRecursive(startingNode string, visited map[string]bool, nodes []string) {
+func (g Graph) dfsRecursive(startingNode string, visited map[string]bool, nodes *[]string) {
 	visited[startingNode] = true
-	r := append(nodes, startingNode)
+	r := append(*nodes, startingNode)
 
 	for _, node := range g.adjacency[startingNode] {
 		if !visited[node] {
-			g.dfsRecursive(node, visited, r)
+			g.dfsRecursive(node, visited, &r)
 		}
 	}
 }
