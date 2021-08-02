@@ -95,7 +95,7 @@ func (g Graph) DFSRecursive(startingNode string) []string {
 	visited := g.createVisited()
 	var result []string
 
-	g.dfsRecursive(startingNode, visited, result[:])
+	g.dfsRecursive(startingNode, visited, result)
 
 	return result
 }
