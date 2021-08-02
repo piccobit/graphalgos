@@ -27,7 +27,7 @@ func (g *Graph) AddVertex(vertex string) bool {
 	return true
 }
 
-// AddEdge adds a edge to the vertex.
+// AddEdge adds an edge to the vertex.
 func (g *Graph) AddEdge(vertex string, node string) bool {
 	if _, ok := g.adjacency[vertex]; !ok {
 		fmt.Printf("vertex %v does not exists\n", vertex)
@@ -95,14 +95,14 @@ func (g Graph) DFSRecursive(startingNode string) []string {
 	visited := g.createVisited()
 	var result []string
 
-	g.dfsRecursive(startingNode, visited, &result)
+	g.dfsRecursive(startingNode, visited, result[:])
 
 	return result
 }
 
-func (g Graph) dfsRecursive(startingNode string, visited map[string]bool, result *[]string) {
+func (g Graph) dfsRecursive(startingNode string, visited map[string]bool, result []string) {
 	visited[startingNode] = true
-	*result = append(*result, startingNode)
+	result = append(result, startingNode)
 
 	for _, node := range g.adjacency[startingNode] {
 		if !visited[node] {
