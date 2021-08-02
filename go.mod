@@ -1,3 +1,3 @@
-module github.com/piccobit/go-graph-traversing/graph-algos
+module github.com/piccobit/graphalgos
 
 go 1.16
