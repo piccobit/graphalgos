@@ -1,3 +1,3 @@
-module github.com/piccobit/graphalgos/v2
+module github.com/piccobit/graphalgos
 
 go 1.16
