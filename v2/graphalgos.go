@@ -5,9 +5,16 @@ import (
 	"strings"
 )
 
+var debug bool
+
 // Graph is the basic structure of the graph.
 type Graph struct {
 	adjacency map[string][]string
+}
+
+// Debug allows to switch on or of the debugging output.
+func Debug(state bool) {
+	debug = state
 }
 
 // NewGraph returns a new Graph.
@@ -20,7 +27,10 @@ func NewGraph() Graph {
 // AddVertex adds a vertex to the graph.
 func (g *Graph) AddVertex(vertex string) bool {
 	if _, ok := g.adjacency[vertex]; ok {
-		fmt.Printf("vertex %v already exists\n", vertex)
+		if debug {
+			fmt.Printf("vertex %v already exists\n", vertex)
+		}
+
 		return false
 	}
 	g.adjacency[vertex] = []string{}
@@ -30,11 +40,15 @@ func (g *Graph) AddVertex(vertex string) bool {
 // AddEdge adds an edge to the vertex.
 func (g *Graph) AddEdge(vertex string, node string) bool {
 	if _, ok := g.adjacency[vertex]; !ok {
-		fmt.Printf("vertex %v does not exists\n", vertex)
+		if debug {
+			fmt.Printf("vertex %v does not exists\n", vertex)
+		}
+
 		return false
 	}
 	if ok := contains(g.adjacency[vertex], node); ok {
 		fmt.Printf("node %v already exists\n", node)
+
 		return false
 	}
 
@@ -113,12 +127,26 @@ func (g Graph) dfsRecursive(startingNode string, visited map[string]bool, result
 	return r
 }
 
-func (g Graph) CreatePath(firstNode, secondNode string) ([]string, bool) {
+func (g Graph) CreatePath(firstNode, secondNode string, reverse bool) ([]string, bool) {
 	visited := g.createVisited()
 	var (
 		path []string
 		q    []string
 	)
+
+	if reverse {
+		tmpNode := firstNode
+		secondNode = firstNode
+		firstNode = tmpNode
+	}
+
+	if debug {
+		if reverse {
+			fmt.Println("Direction: reverse")
+		} else {
+			fmt.Println("Direction: normal")
+		}
+	}
 
 	q = append(q, firstNode)
 	visited[firstNode] = true
@@ -130,7 +158,11 @@ func (g Graph) CreatePath(firstNode, secondNode string) ([]string, bool) {
 		edges := g.adjacency[currentNode]
 		if contains(edges, secondNode) {
 			path = append(path, secondNode)
-			fmt.Println(strings.Join(path, " -> "))
+
+			if debug {
+				fmt.Println(strings.Join(path, " -> "))
+			}
+
 			return path, true
 		}
 
@@ -142,7 +174,9 @@ func (g Graph) CreatePath(firstNode, secondNode string) ([]string, bool) {
 		}
 	}
 
-	fmt.Println("no link found")
+	if debug {
+		fmt.Println("no link found")
+	}
 
 	return nil, false
 }
