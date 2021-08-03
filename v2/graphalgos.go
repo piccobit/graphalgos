@@ -12,7 +12,7 @@ type Graph struct {
 	adjacency map[string][]string
 }
 
-// Debug allows to switch on or of the debugging output.
+// Debug allows switching on or off the debug output.
 func Debug(state bool) {
 	debug = state
 }
@@ -127,26 +127,12 @@ func (g Graph) dfsRecursive(startingNode string, visited map[string]bool, result
 	return r
 }
 
-func (g Graph) CreatePath(firstNode, secondNode string, reverse bool) ([]string, bool) {
+func (g Graph) CreatePath(firstNode, secondNode string) ([]string, bool) {
 	visited := g.createVisited()
 	var (
 		path []string
 		q    []string
 	)
-
-	if reverse {
-		tmpNode := firstNode
-		secondNode = firstNode
-		firstNode = tmpNode
-	}
-
-	if debug {
-		if reverse {
-			fmt.Println("Direction: reverse")
-		} else {
-			fmt.Println("Direction: normal")
-		}
-	}
 
 	q = append(q, firstNode)
 	visited[firstNode] = true
